@@ -54,3 +54,7 @@ Open [http://localhost:3000](http://localhost:3000) and allow camera access.
 ## 🔗 Related Projects
 
 - [Danmaku Mask](https://cygra.github.io/danmaku-mask/) — another MediaPipe + Next.js project
+
+---
+
+[![Stargazers over time](https://starchart.cc/Cygra/hand-gesture-whiteboard.svg?variant=adaptive)](https://starchart.cc/Cygra/hand-gesture-whiteboard)
