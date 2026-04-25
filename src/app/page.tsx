@@ -78,6 +78,8 @@ export default function Home() {
   });
   const pinchReleaseStateRef = useRef<PinchReleaseState>({ lostAt: null });
 
+  const handleSceneResize = useCallback((w: number, h: number) => setCanvasSize([w, h]), []);
+
   const { threeRef, canvasSizeRef } = useThreeScene({
     containerRef: threeContainerRef,
     themeMode,
@@ -87,7 +89,7 @@ export default function Home() {
     windStateRef,
     windTargetRef,
     enableBalloonFallRef,
-    onResize: (w, h) => setCanvasSize([w, h]),
+    onResize: handleSceneResize,
   });
 
   const lastOpenPalmRef = useRef(false);

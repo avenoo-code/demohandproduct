@@ -70,12 +70,24 @@ export function useGestureLoop({
 }: UseGestureLoopOptions): void {
   const setHoldCountdownRef = useRef(setHoldCountdown);
   const toggleThemeModeRef = useRef(toggleThemeMode);
+  const onCameraStatusChangeRef = useRef(onCameraStatusChange);
+  const onGestureFrameRef = useRef(onGestureFrame);
+  const onResetGestureRef = useRef(onResetGesture);
   useEffect(() => {
     setHoldCountdownRef.current = setHoldCountdown;
   }, [setHoldCountdown]);
   useEffect(() => {
     toggleThemeModeRef.current = toggleThemeMode;
   }, [toggleThemeMode]);
+  useEffect(() => {
+    onCameraStatusChangeRef.current = onCameraStatusChange;
+  }, [onCameraStatusChange]);
+  useEffect(() => {
+    onGestureFrameRef.current = onGestureFrame;
+  }, [onGestureFrame]);
+  useEffect(() => {
+    onResetGestureRef.current = onResetGesture;
+  }, [onResetGesture]);
 
   useEffect(() => {
     let cancelled = false;
@@ -246,7 +258,7 @@ export function useGestureLoop({
           lastPoint = { ...latestPoint, ts: nowMs };
         }
 
-        onGestureFrame?.({
+        onGestureFrameRef.current?.({
           handPresent: true,
           isDrawing: isConnected,
           openPalmDetected,
