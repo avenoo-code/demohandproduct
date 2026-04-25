@@ -37,7 +37,6 @@ export default function Home() {
   const sessionActiveRef = useRef(false);
   const expressionModeRef = useRef(expressionMode);
   const metricsRef = useRef(createSessionTracker());
-  const audioVolumeRef = useRef(0);
 
   const {
     themeMode,
@@ -100,7 +99,7 @@ export default function Home() {
   const onGestureFrame = useCallback(
     (frame: { handPresent: boolean; isDrawing: boolean; openPalmDetected: boolean; fistDetected: boolean; point?: { x: number; y: number; z: number }; speed: number }) => {
       balloonStateRef.current.visuals.speed = frame.speed;
-      balloonStateRef.current.visuals.audioVolume = audioVolumeRef.current;
+      balloonStateRef.current.visuals.audioVolume = audioMetrics.volume;
 
       if (frame.openPalmDetected && !lastOpenPalmRef.current) {
         recordGestureEvent(metricsRef.current, "openPalm");
@@ -121,7 +120,7 @@ export default function Home() {
         recordPoint(metricsRef.current, new THREE.Vector3(frame.point.x, frame.point.y, frame.point.z), frame.isDrawing, performance.now());
       }
     },
-    []
+    [audioMetrics.volume]
   );
 
   useGestureLoop({
@@ -186,7 +185,6 @@ export default function Home() {
   expressionModeRef.current = expressionMode;
   balloonStateRef.current.visuals.expressionMode = expressionMode;
   balloonStateRef.current.visuals.strokeStyle = strokeStyle;
-  audioVolumeRef.current = audioMetrics.volume;
   balloonStateRef.current.visuals.audioVolume = audioMetrics.volume;
 
   const modeTint = useMemo(() => EXPRESSION_MODES[expressionMode].palette[0], [expressionMode]);

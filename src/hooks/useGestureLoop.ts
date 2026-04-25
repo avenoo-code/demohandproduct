@@ -106,7 +106,7 @@ export function useGestureLoop({
       await new Promise<void>((resolve) => {
         video.addEventListener("loadeddata", () => resolve(), { once: true });
       });
-      onCameraStatusChangeRef.current?.(true);
+      onCameraStatusChange?.(true);
       if (cancelled) return;
 
       const vision = await FilesetResolver.forVisionTasks("https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/wasm");
@@ -145,7 +145,7 @@ export function useGestureLoop({
 
         if (!result.landmarks || result.landmarks.length === 0) {
           landmarkCtx.clearRect(0, 0, landmarkCanvas.width, landmarkCanvas.height);
-          onGestureFrameRef.current?.({ handPresent: false, isDrawing: false, openPalmDetected: false, fistDetected: false, speed: 0 });
+          onGestureFrame?.({ handPresent: false, isDrawing: false, openPalmDetected: false, fistDetected: false, speed: 0 });
           requestAnimationFrame(renderLoop);
           return;
         }
@@ -228,7 +228,7 @@ export function useGestureLoop({
         updateHoldGesture("clear", fistDetected, nowMs, holdStateRef.current, setHoldCountdownRef.current, () => {
           if (three) {
             clearAllStrokes(balloonStateRef.current, three.scene, pinchReleaseStateRef.current, previousDrawPointRef.current);
-            onResetGestureRef.current?.();
+            onResetGesture?.();
           }
         });
 
@@ -284,6 +284,22 @@ export function useGestureLoop({
       stream?.getTracks().forEach((t) => t.stop());
       clearHoldCountdown(capturedHoldStateRef.current, setHoldCountdownRef.current);
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [
+    balloonStateRef,
+    canvasSizeRef,
+    enableGestureWindRef,
+    holdStateRef,
+    landmarkCanvasRef,
+    onCameraStatusChange,
+    onGestureFrame,
+    onResetGesture,
+    pinchReleaseStateRef,
+    previousDrawPointRef,
+    sessionActiveRef,
+    threeRef,
+    toggleThemeMode,
+    videoRef,
+    waveGestureStateRef,
+    windTargetRef,
+  ]);
 }

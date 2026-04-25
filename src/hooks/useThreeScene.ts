@@ -184,9 +184,7 @@ export function useThreeScene({
       if (renderer.domElement.parentNode) renderer.domElement.parentNode.removeChild(renderer.domElement);
       threeRef.current = null;
     };
-  // refs are intentionally read inside the animation loop so we only initialize Three.js once.
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [balloonStateRef, containerRef, enableBalloonFallRef, expressionModeRef, onResize, sessionActiveRef, themeModeRef, windStateRef, windTargetRef]);
 
   return { threeRef, canvasSizeRef };
 }
