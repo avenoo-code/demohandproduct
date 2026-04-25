@@ -1,15 +1,24 @@
 import * as THREE from "three";
+import type { ExpressionMode, StrokeStyle } from "@/lib/expressionModes";
 
 export type HoldActionType = "clear" | "theme";
 export type Locale = "en" | "zh" | "ja";
 export type ThemeMode = "light" | "dark";
 
+export type StrokeVisualState = {
+  expressionMode: ExpressionMode;
+  strokeStyle: StrokeStyle;
+  speed: number;
+  audioVolume: number;
+  directionChanges: number;
+};
+
 export type BalloonStroke = {
   id: number;
   points: THREE.Vector3[];
-  mesh: THREE.Mesh<THREE.TubeGeometry, THREE.MeshStandardMaterial>;
-  startCap: THREE.Mesh<THREE.SphereGeometry, THREE.MeshStandardMaterial>;
-  endCap: THREE.Mesh<THREE.SphereGeometry, THREE.MeshStandardMaterial>;
+  mesh: THREE.Mesh<THREE.TubeGeometry, THREE.Material>;
+  startCap: THREE.Mesh<THREE.SphereGeometry, THREE.Material>;
+  endCap: THREE.Mesh<THREE.SphereGeometry, THREE.Material>;
   color: THREE.Color;
   velocityY: number;
   settled: boolean;
@@ -27,6 +36,7 @@ export type BalloonStroke = {
   landed: boolean;
   toppling: boolean;
   settleFrames: number;
+  style: StrokeStyle;
 };
 
 export type BalloonState = {
@@ -34,6 +44,7 @@ export type BalloonState = {
   activeStroke: BalloonStroke | null;
   idSeed: number;
   tankDepth: number;
+  visuals: StrokeVisualState;
 };
 
 export type WindVector = { x: number; y: number; z: number };
@@ -55,6 +66,7 @@ export type ThreeState = WallBounds & {
   floor: THREE.Mesh<THREE.PlaneGeometry, THREE.MeshStandardMaterial>;
   driftParticles: THREE.Points<THREE.BufferGeometry, THREE.PointsMaterial>;
   animationFrame: number;
+  sculptureGroup: THREE.Group;
 };
 
 export type WaveGestureState = {
@@ -76,3 +88,12 @@ export type HoldState = {
 
 export type PinchReleaseState = { lostAt: number | null };
 export type DrawPoint = { x: number; y: number };
+
+export type GestureFrameData = {
+  handPresent: boolean;
+  isDrawing: boolean;
+  openPalmDetected: boolean;
+  fistDetected: boolean;
+  point?: { x: number; y: number; z: number };
+  speed: number;
+};
